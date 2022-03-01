@@ -5,7 +5,7 @@ from django.contrib.auth.views import (LoginView, LogoutView,
                                        PasswordResetView)
 from django.urls import path
 from django.urls.base import reverse_lazy
-from django_otp.forms import OTPAuthenticationForm
+#from django_otp.forms import OTPAuthenticationForm
 
 from . import views
 
@@ -25,7 +25,7 @@ urlpatterns = [
     path(
         'login/',
         LoginView.as_view(
-            authentication_form=OTPAuthenticationForm,
+            #authentication_form=OTPAuthenticationForm,
             template_name='users/login.html'
         ),
         name='login'
