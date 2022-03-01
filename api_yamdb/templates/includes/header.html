@@ -1,0 +1,40 @@
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'goods:index' %}">
+        {% load static %}
+        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:green">Inter</span>shop
+      </a>
+
+      {% with request.resolver_match.view_name as view_name %} 
+
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'goods:index' %}active{% endif %}" href="{% url 'goods:index' %}">Товары</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'goods:busket' %}active{% endif %}" href="{% url 'goods:busket' %}">Корзина</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:password_change_form' %}active{% endif %}" href="{% url 'password_change' %}">Изменить пароль</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}" href="{% url 'logout' %}">Выйти</a>
+        </li>
+        <li class="nav-link">
+           <b>Пользователь: {{ user.username }} </b>
+        </li>
+        {% else %}
+
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}" href="{% url 'login' %}">Войти</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}" href="{% url 'users:signup' %}">Регистрация</a>
+        </li>
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </div>
+  </nav>      
