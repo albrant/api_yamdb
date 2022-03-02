@@ -1,3 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
 
-# Create your views here.
+from reviews.models import Review, Titles, Comments
+from .customviewset import CustomModelViewSet
+from .serializers import ReviewSerializer, CommentsSerializer
+
+
+class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        title = self.kwargs.get('title_id')
+        get_object_or_404(Titles, id=title)
+        queryset = Review.objects.filter(title=title)
+        return queryset
+
+
+class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
+    serializer_class = CommentsSerializer
+
+    def get_queryset(self):
+        review = self.kwargs.get('review_id')
+        get_object_or_404(Review, id=review)
+        queryset = Comments.objects.filter(review=review)
+        return queryset
+
+
