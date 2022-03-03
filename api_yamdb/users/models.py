@@ -15,4 +15,4 @@ class User(AbstractUser):
         blank=True,
     )
     # добавила роль, но вопрос, а как быть с суперпользователем. Он всегда админ, но админ не всегда суперпользователь
-    role = models.CharField(choices=CHOICES)
+    role = models.CharField(choices=CHOICES, max_length=10, null=True, blank=True)
