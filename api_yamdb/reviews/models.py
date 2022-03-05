@@ -18,6 +18,12 @@ class Category(models.Model):
         verbose_name='Слаг',
         validators=[characters_validator]
     )
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['name']
