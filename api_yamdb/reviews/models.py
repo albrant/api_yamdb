@@ -51,12 +51,14 @@ class Titles(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
+        default=None,
         validators=[MaxValueValidator(datetime.date.today().year)]
     )
     category = models.ForeignKey(
         Category,
         verbose_name='Категория',
         on_delete=models.SET_NULL,
+        null=True,
         related_name='titles'
     )
     genre = models.ManyToManyField(
