@@ -8,21 +8,31 @@ from reviews.models import Review, Comments, Titles
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
+        fields = ['name', 'slug']
         model = Category
 
 
 class GenreSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = '__all__'
+        fields = ['slug']
         model = Genre
 
 
 class TitlesSerializer(serializers.ModelSerializer):
+    category = SlugRelatedField(
+        queryset=Category.objects.all(),
+        slug_field='name'
+    )
+    genre = SlugRelatedField(
+        queryset=Genre.objects.all(),
+        slug_field='name',
+        many=True
+    )
 
     class Meta:
         fields = '__all__'
+        extra_kwargs = {"description": {"required": False, "allow_null": True}}
         model = Titles
 
 
