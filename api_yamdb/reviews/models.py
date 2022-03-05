@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-
+from .validators import characters_validator
 
 class Category(models.Model):
     name = models.CharField(
