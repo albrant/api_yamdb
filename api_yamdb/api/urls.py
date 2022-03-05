@@ -24,5 +24,6 @@ router.register(
 router.register('users/', UserViewSet, basename='users')
 
 urlpatterns = [
+    # path('auth/token/', TokenView, name='token'),
     path('v1/', include(router.urls)),
 ]

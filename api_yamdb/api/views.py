@@ -62,3 +62,4 @@ class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    pagination_class = LimitOffsetPagination
