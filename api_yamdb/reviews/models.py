@@ -53,6 +53,7 @@ class Titles(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
+        default=None,
         validators=[MaxValueValidator(datetime.date.today().year)]
     )
     category = models.ForeignKey(
