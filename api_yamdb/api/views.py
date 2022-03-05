@@ -62,3 +62,7 @@ class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+
+class SignupViewSet(viewsets.ModelViewSet):
+    pass
