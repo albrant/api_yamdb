@@ -41,6 +41,12 @@ class Genre(models.Model):
         help_text='Выберите жанр'
     )
     slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['name']
