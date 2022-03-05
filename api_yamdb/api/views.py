@@ -1,9 +1,39 @@
+from rest_framework import filters, viewsets
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-
-from reviews.models import Review, Titles, Comments
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAdminUserOrReadOnly
+from rest_framework.pagination import LimitOffsetPagination
+from .serializers import CategorySerializer, GenreSerializer, TitlesSerializer, ReviewSerializer, CommentsSerializer
+from .filtersets import TitlesFilter
+from reviews.models import Category, Genre, Titles, Review, Titles, Comments
 from .customviewset import CustomModelViewSet
-from .serializers import ReviewSerializer, CommentsSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = LimitOffsetPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ('category__name',)
+
+
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = LimitOffsetPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ('genre__name',)
+
+
+class TitlesViewSet(viewsets.ModelViewSet):
+    queryset = Titles.objects.all()
+    serializer_class = TitlesSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = LimitOffsetPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [TitlesFilter]
 
 
 class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
@@ -24,5 +54,3 @@ class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
         get_object_or_404(Review, id=review)
         queryset = Comments.objects.filter(review=review)
         return queryset
-
-
