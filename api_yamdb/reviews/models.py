@@ -100,6 +100,13 @@ class Review(models.Model):
     score = models.IntegerField(null=True)
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Обзор'
+        verbose_name_plural = 'Обзоры'
+
+    def __str__(self):
+        return self.text[:15]
+
 
 class Comments(models.Model):
     review = models.ForeignKey(
@@ -118,3 +125,10 @@ class Comments(models.Model):
         auto_now_add=True,
         db_index=True
     )
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return self.text[:15]

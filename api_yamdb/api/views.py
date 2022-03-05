@@ -2,8 +2,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
 from reviews.models import Review, Titles, Comments
+from users.models import User
 from .customviewset import CustomModelViewSet
-from .serializers import ReviewSerializer, CommentsSerializer
+from .serializers import ReviewSerializer, CommentsSerializer, UserSerializer
 
 
 class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
@@ -26,3 +27,6 @@ class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
         return queryset
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()

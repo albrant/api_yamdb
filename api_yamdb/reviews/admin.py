@@ -28,6 +28,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'text', 'author', 'score', 'pub_date')
     search_fields = ('text',)
     empty_value_display = '-пусто-'
+    list_editable = ('text', 'author', 'score')
 
 
 class CommentsAdmin(admin.ModelAdmin):
