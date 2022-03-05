@@ -16,12 +16,10 @@ router.register(
     CommentsViewSet,
     basename='comments'
 )
-router.register(
-    r'auth/signup/',
-    UserViewSet,
-    basename='users'
-)
+# router.register('auth/signup/', SignupViewSet, basename='signup')
+# router.register('auth/token/', TokenViewSet, basename='tokens')
+router.register('users/', UserViewSet, basename='users')
 
 urlpatterns = [
-    path('v1/', include(router.urls))
+    path('v1/', include(router.urls)),
 ]

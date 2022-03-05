@@ -4,8 +4,11 @@ from .models import User
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'first_name', 'last_name', 'bio')
-    search_fields = ('first_name',)
+    list_display = (
+        'pk', 'username', 'email',
+        'first_name', 'last_name',
+        'bio', 'role')
+    search_fields = ('username',)
     empty_value_display = '-пусто-'
 
 
