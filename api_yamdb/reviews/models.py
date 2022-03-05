@@ -1,6 +1,9 @@
 from django.db import models
 from users.models import User
 from .validators import characters_validator
+from django.core.validators import MaxValueValidator
+import datetime
+
 
 class Category(models.Model):
     name = models.CharField(
