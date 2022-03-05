@@ -3,8 +3,11 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from .permissions import IsAdminUserOrReadOnly
 from rest_framework.pagination import LimitOffsetPagination
-from .serializers import CategorySerializer, GenreSerializer, TitlesSerializer, ReviewSerializer, CommentsSerializer
+from .serializers import (CategorySerializer, GenreSerializer,
+                          TitlesSerializer, ReviewSerializer,
+                          CommentsSerializer, UserSerializer)
 from .filtersets import TitlesFilter
+from users.models import User
 from reviews.models import Category, Genre, Titles, Review, Titles, Comments
 from .customviewset import CustomModelViewSet
 
@@ -54,3 +57,8 @@ class CommentsViewSet(CustomModelViewSet, viewsets.ModelViewSet):
         get_object_or_404(Review, id=review)
         queryset = Comments.objects.filter(review=review)
         return queryset
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
