@@ -21,9 +21,11 @@ class User(AbstractUser):
         'Электронная почта',
         unique=True,
     )
-    bio = models.TextField(
+    bio = models.CharField(
         'Биография',
+        max_length=100,
         blank=True,
+        null=True
     )
     # добавила роль, но вопрос, а как быть с суперпользователем.
     # Он всегда админ, но админ не всегда суперпользователь

@@ -12,7 +12,8 @@ class CustomModelViewSet:
         serializer.save(author=self.request.user)
 
     def perform_update(self, serializer):
-        # проверка на администратора и модератора, кто это такие и как их получить
+        # проверка на администратора и модератора,
+        # кто это такие и как их получить?
         if (serializer.instance.author != self.request.user
                 or self.request.user.role != 'admin'
                 or self.request.user.role != 'moderator'):
@@ -23,7 +24,8 @@ class CustomModelViewSet:
         super().perform_update(serializer)
 
     def perform_destroy(self, instance):
-        # проверка на администратора и модератора, кто это такие и как их получить
+        # проверка на администратора и модератора,
+        # кто это такие и как их получить?
         if (instance.author != self.request.user
                 or self.request.user.role != 'admin'
                 or self.request.user.role != 'moderator'):
