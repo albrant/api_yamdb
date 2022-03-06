@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from django.views.generic import TemplateView
 
 admin.site.site_header = 'Спринт 10 команды 14 кагорты 27 Яндекс Практикума'

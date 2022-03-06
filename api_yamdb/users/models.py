@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 CHOICES = [
     ('anon', 'anonimus'),
     ('admin', 'admin'),
@@ -18,16 +17,15 @@ class User(AbstractUser):
         null=False,
         blank=False
     )
-    email = models.CharField(
+    email = models.EmailField(
         'Электронная почта',
-        max_length=100,
         unique=True,
-        null=False,
-        blank=False
     )
-    bio = models.TextField(
+    bio = models.CharField(
         'Биография',
+        max_length=100,
         blank=True,
+        null=True
     )
     # добавила роль, но вопрос, а как быть с суперпользователем.
     # Он всегда админ, но админ не всегда суперпользователь
@@ -38,9 +36,11 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
-    agree_code = models.CharField(
+    confirmation_code = models.CharField(
         'Код подтверждения',
         max_length=200,
+        editable=False,
         null=True,
-        blank=True
+        blank=True,
+        unique=True
     )

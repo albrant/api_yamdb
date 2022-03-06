@@ -1,8 +1,8 @@
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from reviews.models import Category, Genre, Titles
+from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-from reviews.models import Review, Comments, Titles
+
+from reviews.models import Category, Comments, Genre, Review, Titles
 from users.models import User
 
 
@@ -73,5 +73,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        # fields = ('id', 'username', 'email')
         fields = '__all__'
+
+
+class UserCreationSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
+
+
+class UserAccessTokenSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    confirmation_code = serializers.CharField(required=True)

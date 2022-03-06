@@ -1,8 +1,11 @@
-from django.db import models
-from users.models import User
-from .validators import characters_validator
-from django.core.validators import MaxValueValidator
 import datetime
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
+from users.models import User
+
+from .validators import characters_validator
 
 
 class Category(models.Model):
@@ -16,6 +19,12 @@ class Category(models.Model):
         unique=True,
         verbose_name='Слаг',
         validators=[characters_validator]
+    )
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
     )
 
     class Meta:
@@ -34,6 +43,12 @@ class Genre(models.Model):
         help_text='Выберите жанр'
     )
     slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['name']
@@ -89,7 +104,13 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
-    score = models.IntegerField(null=True)
+    score = models.IntegerField(
+        null=True,
+        validators=[
+            MaxValueValidator(10),
+            MinValueValidator(1)
+        ]
+    )
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
 
     class Meta:
