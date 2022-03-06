@@ -1,9 +1,10 @@
 from importlib.metadata import requires
-from rest_framework import serializers
+
 from django.shortcuts import get_object_or_404
-from reviews.models import Category, Genre, Titles
+from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-from reviews.models import Review, Comments, Titles
+
+from reviews.models import Category, Comments, Genre, Review, Titles
 from users.models import User
 
 

@@ -1,24 +1,24 @@
-from urllib import response
 from django.conf import settings
-from rest_framework.response import Response
-from rest_framework import filters, viewsets, status
-from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view, permission_classes
-from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail
-from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import IsAdminUserOrReadOnly
-from rest_framework.pagination import LimitOffsetPagination
-from .serializers import (CategorySerializer, GenreSerializer,
-                          TitlesSerializer, ReviewSerializer,
-                          CommentsSerializer, UserSerializer,
-                          UserCreationSerializer)
-from .filtersets import TitlesFilter
-from users.models import User
 # from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
-from reviews.models import Category, Genre, Review, Titles, Comments
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from reviews.models import Category, Comments, Genre, Review, Titles
+from users.models import User
+
 from .customviewset import CustomModelViewSet
+from .filtersets import TitlesFilter
+from .permissions import IsAdminUserOrReadOnly
+from .serializers import (CategorySerializer, CommentsSerializer,
+                          GenreSerializer, ReviewSerializer, TitlesSerializer,
+                          UserCreationSerializer, UserSerializer)
 
 # User = get_user_model()
 
