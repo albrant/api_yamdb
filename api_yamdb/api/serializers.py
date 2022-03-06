@@ -1,3 +1,4 @@
+from importlib.metadata import requires
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from reviews.models import Category, Genre, Titles
@@ -75,3 +76,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         # fields = ('id', 'username', 'email')
         fields = '__all__'
+
+
+class UserCreationSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
