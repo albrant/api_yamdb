@@ -8,7 +8,7 @@ from .serializers import (CategorySerializer, GenreSerializer,
                           CommentsSerializer, UserSerializer)
 from .filtersets import TitlesFilter
 from users.models import User
-from reviews.models import Category, Genre, Titles, Review, Titles, Comments
+from reviews.models import Category, Genre, Review, Titles, Comments
 from .customviewset import CustomModelViewSet
 
 
