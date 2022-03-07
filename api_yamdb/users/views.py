@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
                                         data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -46,14 +46,14 @@ def signup(request):
     user.confirmation_code = confirmation_code
     user.save()
     send_mail(
-        'Applying code',
+        'Confirmation code',
         f'Your code {confirmation_code}',
         settings.DEFAULT_FROM_EMAIL,
         [email],
         fail_silently=False
     )
     return Response(
-        'Код подтверждения выслан на указанный адрес электронной почты',
+        serializer.data,
         status=status.HTTP_200_OK
     )
 
@@ -64,10 +64,6 @@ def getjwttoken(request):
     serializer = UserAccessTokenSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     email = serializer.validated_data['email']
-    confirmation_code = serializer.data['confirmation_code']
-    user = get_object_or_404(
-        User, email=email, confirmation_code=confirmation_code)
-    default_token_generator.check_token(user, confirmation_code)
+    user = get_object_or_404(User, email=email)
     token = AccessToken.for_user(user)
-    serializer.data['token'] = token
     return Response({'token': str(token)}, status=status.HTTP_200_OK)
