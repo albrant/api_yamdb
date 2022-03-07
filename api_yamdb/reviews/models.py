@@ -54,7 +54,6 @@ class Titles(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
-        blank=True,
         validators=[MaxValueValidator(datetime.date.today().year)]
     )
     category = models.ForeignKey(
@@ -67,7 +66,7 @@ class Titles(models.Model):
     genre = models.ManyToManyField(
         Genre,
         verbose_name='Жанр',
-        related_name='titles'
+        related_name='titles',
     )
     description = models.TextField(blank=True, verbose_name='Описание')
     rating = models.IntegerField(null=True)

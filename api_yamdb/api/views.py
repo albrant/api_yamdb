@@ -7,6 +7,7 @@ from reviews.models import Category, Comments, Genre, Review, Titles
 
 from .customviewset import CustomModelViewSet
 from .filters import TitlesFilter
+from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAdminUserOrReadOnly
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitlesSerializer)
@@ -37,6 +38,18 @@ class TitlesViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitlesFilter
+
+    def perform_create(self, serializer):
+        category = get_object_or_404(
+            Category, slug=self.request.data.get("category")
+        )
+        genre = Genre.objects.filter(
+            slug__in=self.request.data.getlist("genre")
+        )
+        serializer.save(category=category, genre=genre)
+
+    def perform_update(self, serializer):
+        self.perform_create(serializer)
 
 
 class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
