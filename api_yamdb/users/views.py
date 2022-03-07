@@ -64,8 +64,6 @@ def getjwttoken(request):
     serializer = UserAccessTokenSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     email = serializer.validated_data['email']
-    #confirmation_code = serializer.data['confirmation_code']
     user = get_object_or_404(User, email=email)
-    # default_token_generator.check_token(user, confirmation_code)
     token = AccessToken.for_user(user)
-    return Response({'token': str(token)}, status=status.HTTP_201_CREATED)
+    return Response({'token': str(token)}, status=status.HTTP_200_OK)
