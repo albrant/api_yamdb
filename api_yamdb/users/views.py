@@ -53,7 +53,7 @@ def signup(request):
         fail_silently=False
     )
     return Response(
-        'Код подтверждения выслан на указанный адрес электронной почты',
+        serializer.data,
         status=status.HTTP_200_OK
     )
 
