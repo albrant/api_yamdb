@@ -5,21 +5,21 @@ from .models import Category, Comments, Genre, Review, Titles
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'slug')
-    search_fields = ('name', 'slug')
+    search_fields = ('name',)
     empty_value_display = '-пусто-'
     list_editable = ('name', 'slug')
 
 
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'slug')
-    search_fields = ('name', 'slug')
+    search_fields = ('name',)
     empty_value_display = '-пусто-'
     list_editable = ('name', 'slug')
 
 
 class TitlesAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'year', 'category')
-    search_fields = ('name', 'category')
+    search_fields = ('name',)
     empty_value_display = '-пусто-'
     list_editable = ('name', 'category')
 

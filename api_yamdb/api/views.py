@@ -14,7 +14,7 @@ from reviews.models import Category, Comments, Genre, Review, Titles
 from users.models import User
 
 from .customviewset import CustomModelViewSet
-from .filtersets import TitlesFilter
+from .filters import TitlesFilter
 from .permissions import IsAdminUserOrReadOnly
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitlesSerializer,
@@ -46,7 +46,19 @@ class TitlesViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = [TitlesFilter]
+    filterset_class = TitlesFilter
+
+    # def perform_create(self, serializer):
+    #     category = get_object_or_404(
+    #         Category, slug=self.request.data.get("category")
+    #     )
+    #     genre = Genre.objects.filter(
+    #         slug__in=self.request.data.getlist("genre")
+    #     )
+    #     serializer.save(category=category, genre=genre)
+
+    # def perform_update(self, serializer):
+    #     self.perform_create(serializer)
 
 
 class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
@@ -85,6 +97,7 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
         return Response(serializer.data)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
