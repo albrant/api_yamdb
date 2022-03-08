@@ -3,14 +3,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 
-from reviews.models import Category, Comments, Genre, Review, Titles
+from reviews.models import Category, Comments, Genre, Review, Title
 
 from .customviewset import CustomModelViewSet
-from .filters import TitlesFilter
-from rest_framework.permissions import IsAuthenticated
+from .filters import TitleFilter
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsAdminUserOrReadOnly
 from .serializers import (CategorySerializer, CommentsSerializer,
-                          GenreSerializer, ReviewSerializer, TitlesSerializer)
+                          GenreSerializer, ReviewSerializer, TitleSerializer)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -31,13 +31,13 @@ class GenreViewSet(viewsets.ModelViewSet):
     search_fields = ('genre__name',)
 
 
-class TitlesViewSet(viewsets.ModelViewSet):
-    queryset = Titles.objects.all()
-    serializer_class = TitlesSerializer
+class TitleViewSet(viewsets.ModelViewSet):
+    queryset = Title.objects.all()
+    serializer_class = TitleSerializer
     permission_classes = [IsAdminUserOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_class = TitlesFilter
+    filterset_class = TitleFilter
 
     def perform_create(self, serializer):
         category = get_object_or_404(
@@ -57,7 +57,7 @@ class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
 
     def get_queryset(self):
         title = self.kwargs.get('title_id')
-        get_object_or_404(Titles, id=title)
+        get_object_or_404(Title, id=title)
         queryset = Review.objects.filter(title=title)
         return queryset
 

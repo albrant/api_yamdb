@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
-from reviews.models import Category, Comments, Genre, Review, Titles
+from reviews.models import Category, Comments, Genre, Review, Title
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
 
 
-class TitlesSerializer(serializers.ModelSerializer):
+class TitleSerializer(serializers.ModelSerializer):
     # category = SlugRelatedField(
     #     queryset=Category.objects.all(),
     #     slug_field='name'
@@ -34,12 +34,11 @@ class TitlesSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = '__all__'
-        read_only_fields = ['id', 'rating']
-        extra_kwargs = {
-            'description': {'required': False},
-            'id': {'required': True}
-        }
-        model = Titles
+        # extra_kwargs = {
+        #     'description': {'required': False},
+        #     'id': {'required': True}
+        # }
+        model = Title
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -50,7 +49,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         author = self.context['request'].user
         title_id = self.context['request'].parser_context['kwargs'].get('title_id')
         title = get_object_or_404(
-            Titles,
+            Title,
             id=title_id
         )
         if (self.context['request'].method == 'POST'

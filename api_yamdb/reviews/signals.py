@@ -7,7 +7,7 @@ from .models import Review
 
 @receiver([post_save, post_delete], sender=Review)
 def get_rating(sender, instance, **kwargs):
-    instance.titles.rating = instance.titles.reviews.aggregate(
+    instance.title.rating = instance.title.reviews.aggregate(
         (Avg('score'))['score__avg']
     )
-    instance.titles.save()
+    instance.title.save()
