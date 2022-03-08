@@ -27,7 +27,7 @@ with open(
     reader_titles = csv.DictReader(csvfile, delimiter=',')
     to_db_titles = [
         (row['id'], row['name'], row['category'],
-         '', '', row['year'])
+         '', row['year'])
         for row in reader_titles
     ]
 
@@ -66,9 +66,9 @@ with open(
     reader_users = csv.DictReader(csvfile, delimiter=',')
     to_db_users = [
         (row['id'], '', '', '',
-         row['first_name'], row['last_name'],
+         row['username'], row['first_name'], row['last_name'],
          row['email'], '', '', '', row['bio'],
-         row['role'], '', row['username'])
+         '', row['role'])
         for row in reader_users
     ]
 
@@ -85,13 +85,13 @@ cursor.executemany(
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_titles (id, name, category_id, description, rating, year)"
-    " VALUES (?, ?, ?, ?, ?, ?)",
+    "INSERT INTO reviews_title (id, name, category_id, description, year)"
+    " VALUES (?, ?, ?, ?, ?)",
     to_db_titles
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_titles_genre (id, genre_id, titles_id)"
+    "INSERT INTO reviews_title_genre (id, genre_id, title_id)"
     " VALUES (?, ?, ?)",
     to_db_genre_title
 )
@@ -109,10 +109,10 @@ cursor.executemany(
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO users_user (id, password, last_login, "
-    "is_superuser, first_name, last_name, email,"
-    " is_staff, is_active, date_joined, bio, "
-    "role, agree_code, username)"
+    "INSERT OR IGNORE INTO users_user (id, password, last_login, "
+    "is_superuser, username, first_name, last_name, email,"
+    " is_staff, is_active, date_joined, bio,"
+    "confirmation_code, role)"
     " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     to_db_users
 )

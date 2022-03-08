@@ -59,7 +59,7 @@ class Genre(models.Model):
         return self.name
 
 
-class Titles(models.Model):
+class Title(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name='Название',
@@ -82,7 +82,6 @@ class Titles(models.Model):
         related_name='titles'
     )
     description = models.TextField(blank=True, verbose_name='Описание')
-    rating = models.IntegerField(null=True)
 
     class Meta:
         verbose_name = 'Произведение'
@@ -94,7 +93,7 @@ class Titles(models.Model):
 
 class Review(models.Model):
     title = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
         related_name='reviews'
     )
@@ -116,6 +115,11 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Обзор'
         verbose_name_plural = 'Обзоры'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'author'], name='unique_review'
+            )
+        ]
 
     def __str__(self):
         return self.text[:15]
