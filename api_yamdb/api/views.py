@@ -16,45 +16,39 @@ from .serializers import (CategorySerializer, CommentsSerializer,
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly]
-    pagination_class = LimitOffsetPagination
+    permission_classes = [IsAdminUserOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ('category__name',)
+    search_fields = ('name',)
 
 
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly]
-    pagination_class = LimitOffsetPagination
+    permission_classes = [IsAdminUserOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ('genre__name',)
+    search_fields = ('name',)
 
 
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.annotate(
         rating=Avg('reviews__score')).order_by('rating')
     serializer_class = TitleSerializer
-    permission_classes = [IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitleFilter
 
-    # def get_queryset(self):
-    #     return Title.objects.annotate(
-    #         rating=Avg('title_review__score')).all()
+    def perform_create(self, serializer):
+        category = get_object_or_404(
+            Category, slug=self.request.data.get("category")
+        )
+        genre = Genre.objects.filter(
+            slug__in=self.request.data.getlist("genre")
+        )
+        serializer.save(category=category, genre=genre)
 
-    # def perform_create(self, serializer):
-    #     category = get_object_or_404(
-    #         Category, slug=self.request.data.get("category")
-    #     )
-    #     genre = Genre.objects.filter(
-    #         slug__in=self.request.data.getlist("genre")
-    #     )
-    #     serializer.save(category=category, genre=genre)
-
-    # def perform_update(self, serializer):
-    #     self.perform_create(serializer)
+    def perform_update(self, serializer):
+        self.perform_create(serializer)
 
 
 class ReviewViewSet(CustomModelViewSet, viewsets.ModelViewSet):
