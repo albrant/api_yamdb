@@ -54,21 +54,27 @@ class Title(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
-        validators=[MaxValueValidator(datetime.date.today().year)]
+        validators=[MaxValueValidator(datetime.date.today().year)],
+        blank=True,
     )
     category = models.ForeignKey(
         Category,
         verbose_name='Категория',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='title'
     )
     genre = models.ManyToManyField(
         Genre,
+        blank=True,
         verbose_name='Жанр',
         related_name='title',
     )
-    description = models.TextField(blank=True, verbose_name='Описание')
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Описание')
 
     class Meta:
         verbose_name = 'Произведение'
@@ -102,6 +108,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Обзор'
         verbose_name_plural = 'Обзоры'
+
 
     def __str__(self):
         return self.text[:15]

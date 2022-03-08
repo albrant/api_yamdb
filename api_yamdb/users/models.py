@@ -2,6 +2,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from reviews.validators import validate_username
+
 
 ANONIMOUS = 'anonimous'
 USER = 'user'
@@ -41,34 +43,42 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    first_name = models.CharField(
+        verbose_name='Имя',
+        max_length=20,
+        blank=True,
+        null=True
+    )
+    last_name = models.CharField(
+        verbose_name='Фамилия',
+        max_length=20,
+        blank=True,
+        null=True
+    )
     username = models.CharField(
         'Имя пользователя',
         max_length=20,
         unique=True,
-        null=False,
-        blank=False
     )
     email = models.EmailField(
-        'Электронная почта',
+        verbose_name='Электронная почта',
         unique=True,
+        blank=True
     )
     bio = models.CharField(
-        'Биография',
+        verbose_name='Биография',
         max_length=100,
         blank=True,
         null=True
     )
-    # добавила роль, но вопрос, а как быть с суперпользователем.
-    # Он всегда админ, но админ не всегда суперпользователь
     role = models.CharField(
-        'Роль',
+        verbose_name='Роль',
         choices=CHOICES,
-        max_length=10,
-        null=True,
-        blank=True
+        default=USER,
+        max_length=10
     )
     confirmation_code = models.CharField(
-        'Код подтверждения',
+        verbose_name='Код подтверждения',
         max_length=200,
         editable=False,
         null=True,
