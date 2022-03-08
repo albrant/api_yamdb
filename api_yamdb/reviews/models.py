@@ -20,12 +20,6 @@ class Category(models.Model):
         verbose_name='Слаг',
         validators=[characters_validator]
     )
-    description = models.TextField(
-        'Описание',
-        max_length=300,
-        null=True,
-        blank=True
-    )
 
     class Meta:
         ordering = ['name']
@@ -43,12 +37,6 @@ class Genre(models.Model):
         help_text='Выберите жанр'
     )
     slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
-    description = models.TextField(
-        'Описание',
-        max_length=300,
-        null=True,
-        blank=True
-    )
 
     class Meta:
         ordering = ['name']
@@ -59,14 +47,13 @@ class Genre(models.Model):
         return self.name
 
 
-class Titles(models.Model):
+class Title(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name='Название',
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
-        default=None,
         validators=[MaxValueValidator(datetime.date.today().year)]
     )
     category = models.ForeignKey(
@@ -74,15 +61,14 @@ class Titles(models.Model):
         verbose_name='Категория',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='titles'
+        related_name='title'
     )
     genre = models.ManyToManyField(
         Genre,
         verbose_name='Жанр',
-        related_name='titles'
+        related_name='title',
     )
     description = models.TextField(blank=True, verbose_name='Описание')
-    rating = models.IntegerField(null=True)
 
     class Meta:
         verbose_name = 'Произведение'
@@ -94,9 +80,9 @@ class Titles(models.Model):
 
 class Review(models.Model):
     title = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
-        related_name='reviews'
+        related_name='reviews',
     )
     text = models.TextField()
     author = models.ForeignKey(

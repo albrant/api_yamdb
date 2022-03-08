@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 
-from api.permissions import IsAdminUserOrReadOnly
+from api.permissions import IsAdmin
 
 from .models import User
 from .serializers import (UserAccessTokenSerializer, UserCreationSerializer,
@@ -18,7 +18,7 @@ from .serializers import (UserAccessTokenSerializer, UserCreationSerializer,
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = (permissions.IsAuthenticated, IsAdminUserOrReadOnly)
+    permission_classes = (permissions.IsAuthenticated, IsAdmin)
 
     @action(methods=['patch', 'get'], detail=False,
             permission_classes=[permissions.IsAuthenticated])
