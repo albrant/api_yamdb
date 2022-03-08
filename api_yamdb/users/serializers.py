@@ -15,6 +15,14 @@ class UserSerializer(serializers.ModelSerializer):
             'email': {'required': True}
         }
 
+    def update(self, instance, validated_data):
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        if instance.role == 'admin':
+            instance.role = validated_data.get('role', instance.role)
+        instance.save()
+        return instance
 
 class UserCreationSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
