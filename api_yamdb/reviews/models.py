@@ -69,7 +69,6 @@ class Title(models.Model):
         related_name='title',
     )
     description = models.TextField(blank=True, verbose_name='Описание')
-    rating = models.IntegerField(null=True)
 
     class Meta:
         verbose_name = 'Произведение'
