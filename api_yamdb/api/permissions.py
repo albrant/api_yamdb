@@ -20,30 +20,15 @@ class IsAdminUserOrReadOnly(BasePermission):
 
 
 class IsAdminOrAuthorOrReadOnly(BasePermission):
-
     def has_object_permission(self, request, view, obj):
-        if request.user and request.user.is_authenticated:
-            if (request.method == 'POST' and request.user.is_authenticated
-                    or request.user.is_staff or request.user.is_admin
-                    or request.user.is_moderator
-                    or obj.author == request.user):
-                return True
-        elif request.method in SAFE_METHODS:
+        if request.method in SAFE_METHODS:
             return True
 
-    # message = status.HTTP_403_FORBIDDEN
-    # edit_methods = ("PUT", "PATCH", "DELETE",)
-    #
-    # def has_object_permission(self, request, view, obj):
-    #     user = request.user
-    #     if request.method == "POST":
-    #         return user == user.is_authenticated
-    #     if request.method in SAFE_METHODS:
-    #         return True
-    #     if request.method in self.edit_methods:
-    #         return (
-    #             user.is_moderator()
-    #             or user.is_admin()
-    #             or user == obj.author
-    #         )
-    #     return False
+        if request.method == 'POST':
+            return bool(request.user and request.user.is_authenticated)
+
+        return bool(request.user and (
+                request.user == obj.author or
+                request.user.is_moderator or
+                request.user.is_admin))
+
