@@ -1,7 +1,6 @@
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from .models import User
 
 
@@ -11,25 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['first_name', 'last_name', 'username',
                   'bio', 'email', 'role']
-        # extra_kwargs = {
-        #     'password': {'required': False},
-        #     'email': {'required': True}
-        # }
-
-    def update(self, instance, validated_data):
-        instance.bio = validated_data.get('bio', instance.bio)
-        instance.first_name = validated_data.get(
-            'first_name',
-            instance.first_name
-        )
-        instance.last_name = validated_data.get(
-            'last_name',
-            instance.last_name
-        )
-        if instance.role == 'admin':
-            instance.role = validated_data.get('role', instance.role)
-        instance.save()
-        return instance
 
 
 class UserCreationSerializer(serializers.Serializer):
