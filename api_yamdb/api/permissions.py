@@ -14,6 +14,13 @@ class IsAdminUserOrReadOnly(BasePermission):
             return True
 
 
+class IsAuthorOrReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if (request.method in SAFE_METHODS
+                or obj.author == request.user):
+            return True
+
+
 class IsAdmin(BasePermission):
 
     def has_permission(self, request, view):
