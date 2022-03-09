@@ -1,39 +1,37 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets, permissions
+from rest_framework import filters, viewsets, mixins, permissions
 from rest_framework.pagination import LimitOffsetPagination
-
-from .permissions import IsAdminOrAuthorOrReadOnly
-
 from django.db.models import Avg
 from reviews.models import Category, Genre, Review, Title
 
 from .filters import TitleFilter
-
-
-from .permissions import IsAdminUserOrReadOnly
-
+from .permissions import IsAdminUserOrReadOnly, IsAdminOrAuthorOrReadOnly
 
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class ListCreateDestroyViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    permission_classes = [IsAdminUserOrReadOnly]
+    lookup_field = 'slug'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+
+
+class CategoryViewSet(ListCreateDestroyViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminUserOrReadOnly]
-    pagination_class = LimitOffsetPagination
-    filter_backends = [filters.SearchFilter]
-    search_fields = ('name',)
 
 
-class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(ListCreateDestroyViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAdminUserOrReadOnly]
-    pagination_class = LimitOffsetPagination
-    filter_backends = [filters.SearchFilter]
-    search_fields = ('name',)
 
 
 class TitleViewSet(viewsets.ModelViewSet):
