@@ -38,7 +38,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, value):
         author = self.context['request'].user
-        title_id = self.context['request'].parser_context['kwargs'].get('title_id')
+        title_id = (self.context['request'].
+                    parser_context['kwargs'].get('title_id'))
         title = get_object_or_404(
             Title,
             id=title_id
