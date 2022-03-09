@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """
 ASGI config for YaMDb project.
 It exposes the ASGI callable as a module-level variable named ``application``.
@@ -5,6 +6,8 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
+=======
+>>>>>>> 57196a02a534f525de27c61e4bfe8b489f8a5ce7
 import os
 
 from django.core.asgi import get_asgi_application

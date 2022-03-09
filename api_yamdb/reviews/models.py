@@ -66,22 +66,28 @@ class Title(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
-        default=None,
-        validators=[MaxValueValidator(datetime.date.today().year)]
+
+        validators=[MaxValueValidator(datetime.date.today().year)],
+        blank=True,
     )
     category = models.ForeignKey(
         Category,
         verbose_name='Категория',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='titles'
+        blank=True,
+        related_name='title'
     )
     genre = models.ManyToManyField(
         Genre,
+        blank=True,
         verbose_name='Жанр',
         related_name='titles'
     )
-    description = models.TextField(blank=True, verbose_name='Описание')
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Описание')
 
     class Meta:
         verbose_name = 'Произведение'
@@ -101,7 +107,7 @@ class Review(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='reviews'
+        related_name='reviews',
     )
     score = models.IntegerField(
         null=True,
@@ -116,9 +122,8 @@ class Review(models.Model):
         verbose_name = 'Обзор'
         verbose_name_plural = 'Обзоры'
         constraints = [
-            models.UniqueConstraint(
-                fields=['title', 'author'], name='unique_review'
-            )
+            models.UniqueConstraint(fields=['author', 'title'],
+                                    name='unique_review')
         ]
 
     def __str__(self):

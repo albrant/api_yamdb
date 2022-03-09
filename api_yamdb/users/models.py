@@ -41,34 +41,41 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    first_name = models.CharField(
+        verbose_name='Имя',
+        max_length=20,
+        blank=True,
+        null=True
+    )
+    last_name = models.CharField(
+        verbose_name='Фамилия',
+        max_length=20,
+        blank=True,
+        null=True
+    )
     username = models.CharField(
         'Имя пользователя',
         max_length=20,
-        unique=True,
-        null=False,
-        blank=False
+        unique=True
     )
     email = models.EmailField(
-        'Электронная почта',
-        unique=True,
+        verbose_name='Электронная почта',
+        unique=True
     )
     bio = models.CharField(
-        'Биография',
+        verbose_name='Биография',
         max_length=100,
         blank=True,
         null=True
     )
-    # добавила роль, но вопрос, а как быть с суперпользователем.
-    # Он всегда админ, но админ не всегда суперпользователь
     role = models.CharField(
-        'Роль',
+        verbose_name='Роль',
         choices=CHOICES,
-        max_length=10,
-        null=True,
-        blank=True
+        default=USER,
+        max_length=10
     )
     confirmation_code = models.CharField(
-        'Код подтверждения',
+        verbose_name='Код подтверждения',
         max_length=200,
         editable=False,
         null=True,
@@ -76,6 +83,8 @@ class User(AbstractUser):
         unique=True
     )
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     objects = UserManager()
 
     @property
