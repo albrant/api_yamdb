@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField
 
 from reviews.models import Category, Comments, Genre, Review, Title
 
@@ -29,7 +28,7 @@ class TitleSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(read_only=True, slug_field='username')
+    author = serializers.SlugRelatedField(read_only=True, slug_field='username')
     title = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def validate(self, value):
@@ -52,7 +51,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CommentsSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(read_only=True, slug_field='username')
+    author = serializers.SlugRelatedField(read_only=True, slug_field='username')
     review = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
