@@ -20,6 +20,12 @@ class Category(models.Model):
         verbose_name='Слаг',
         validators=[characters_validator]
     )
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['name']
@@ -37,6 +43,12 @@ class Genre(models.Model):
         help_text='Выберите жанр'
     )
     slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
+    description = models.TextField(
+        'Описание',
+        max_length=300,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         ordering = ['name']
@@ -54,6 +66,7 @@ class Title(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
+
         validators=[MaxValueValidator(datetime.date.today().year)],
         blank=True,
     )
@@ -69,7 +82,7 @@ class Title(models.Model):
         Genre,
         blank=True,
         verbose_name='Жанр',
-        related_name='title',
+        related_name='titles'
     )
     description = models.TextField(
         blank=True,
@@ -88,7 +101,7 @@ class Review(models.Model):
     title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
-        related_name='reviews',
+        related_name='reviews'
     )
     text = models.TextField()
     author = models.ForeignKey(
