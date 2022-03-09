@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='username',
-            field=models.CharField(max_length=20, unique=True, validators=[reviews.validators.validate_username], verbose_name='Имя пользователя'),
+            field=models.CharField(max_length=20, unique=True, verbose_name='Имя пользователя'),
         ),
     ]
