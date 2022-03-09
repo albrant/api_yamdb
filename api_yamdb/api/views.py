@@ -8,7 +8,7 @@ from reviews.models import Category, Comments, Genre, Review, Title
 from .customviewset import CustomModelViewSet
 from .filters import TitleFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .permissions import IsAdmin, ReadOnly, IsAuthor, IsModerator
+from .permissions import IsAdmin, ReadOnly, IsAuthor, IsModerator, IsAdminUserOrReadOnly
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
 
@@ -16,7 +16,7 @@ from .serializers import (CategorySerializer, CommentsSerializer,
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdmin | ReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ('name',)
 
@@ -24,7 +24,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAdmin | ReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ('name',)
 
@@ -33,7 +33,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.annotate(
         rating=Avg('reviews__score')).order_by('rating')
     serializer_class = TitleSerializer
-    permission_classes = [IsAdmin | ReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitleFilter
@@ -53,7 +53,7 @@ class TitleViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes = [IsAdmin | IsModerator | IsAuthor | ReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get_queryset(self):
         title = get_object_or_404(
@@ -81,7 +81,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class CommentsViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
-    permission_classes = [IsAdmin | IsModerator | IsAuthor | ReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get_queryset(self):
         review = get_object_or_404(
