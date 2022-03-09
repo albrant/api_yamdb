@@ -20,18 +20,19 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAdmin]
+    lookup_field = 'username'
 
     @action(methods=['patch', 'get'], detail=False,
             permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         if request.method == 'GET':
             serializer = UserSerializer(self.request.user)
-        else:
-            serializer = UserSerializer(self.request.user,
-                                        data=request.data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-        return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = UserSerializer(self.request.user,
+                                    data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(role=request.user.role, partial=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
