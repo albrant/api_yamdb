@@ -22,6 +22,7 @@ class GenreSerializer(serializers.ModelSerializer):
 class TitleSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         fields = '__all__'
@@ -34,6 +35,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         slug_field='username',
     )
     score = serializers.IntegerField()
+    title = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def validate(self, value):
         author = self.context['request'].user
@@ -51,7 +53,6 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = '__all__'
-        # fields = ['text', 'score']
         model = Review
 
 
@@ -60,7 +61,7 @@ class CommentsSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='username'
     )
-    # review = serializers.PrimaryKeyRelatedField(read_only=True)
+    review = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         fields = '__all__'
