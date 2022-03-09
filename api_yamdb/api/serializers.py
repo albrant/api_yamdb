@@ -29,7 +29,11 @@ class TitleSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    author = serializers.SlugRelatedField(read_only=True, slug_field='username')
+    author = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username',
+    )
+    score = serializers.IntegerField()
     title = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def validate(self, value):
