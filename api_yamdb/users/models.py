@@ -2,8 +2,6 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from reviews.validators import validate_username
-
 
 ANONIMOUS = 'anonimous'
 USER = 'user'
@@ -62,8 +60,7 @@ class User(AbstractUser):
     )
     email = models.EmailField(
         verbose_name='Электронная почта',
-        unique=True,
-        blank=True
+        unique=True
     )
     bio = models.CharField(
         verbose_name='Биография',
@@ -86,6 +83,8 @@ class User(AbstractUser):
         unique=True
     )
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     objects = UserManager()
 
     @property
