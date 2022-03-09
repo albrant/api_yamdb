@@ -113,7 +113,6 @@ class Review(models.Model):
                                     name='unique_review')
         ]
 
-
     def __str__(self):
         return self.text[:15]
 

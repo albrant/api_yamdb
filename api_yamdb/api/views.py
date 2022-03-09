@@ -3,12 +3,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django.db.models import Avg
-from reviews.models import Category, Comments, Genre, Review, Title
+from reviews.models import Category, Genre, Review, Title
 
-from .customviewset import CustomModelViewSet
 from .filters import TitleFilter
+
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsAdmin, ReadOnly, IsAuthor, IsModerator, IsAdminUserOrReadOnly
+
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
 
