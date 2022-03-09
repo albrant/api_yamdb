@@ -24,12 +24,13 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['patch', 'get'], detail=False,
             permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
-        if request.method == 'GET' and not request.user.is_admin:
+        if request.method == 'GET':
             serializer = UserSerializer(self.request.user)
-        serializer = UserSerializer(self.request.user,
-                                    data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(role=request.user.role)
+        else:
+            serializer = UserSerializer(self.request.user,
+                                        data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
         return Response(serializer.data)
 
 
