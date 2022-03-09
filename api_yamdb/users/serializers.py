@@ -1,6 +1,7 @@
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+
 from .models import User
 
 
@@ -13,8 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserCreationSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    username = serializers.CharField()
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
 
     def validate(self, data):
         if data['username'] == 'me':

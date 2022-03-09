@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 ANONIMOUS = 'anonimous'
 USER = 'user'
 MODERATOR = 'moderator'
@@ -42,14 +41,11 @@ class User(AbstractUser):
         unique=True
     )
 
-
     @property
     def is_admin(self):
-        return any([
-                self.role == ADMIN,
-                self.is_superuser,
-                self.is_staff,
-            ])
+        return any(
+            [self.role == ADMIN, self.is_superuser, self.is_staff]
+        )
 
     @property
     def is_moderator(self):
@@ -59,6 +55,12 @@ class User(AbstractUser):
         ordering = ['username']
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['username', 'email'],
+                name='unique_username_email'
+            )
+        ]
 
     def __str__(self):
         return self.username

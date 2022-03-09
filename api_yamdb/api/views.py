@@ -1,13 +1,14 @@
+from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets, mixins, permissions
+from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
-from django.db.models import Avg
+
 from reviews.models import Category, Genre, Review, Title
 
 from .filters import TitleFilter
-from .permissions import IsAdminModeratorAuthorOrReadOnly, IsAdminUserOrReadOnly
-
+from .permissions import (IsAdminModeratorAuthorOrReadOnly,
+                          IsAdminUserOrReadOnly)
 from .serializers import (CategorySerializer, CommentsSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
 
@@ -59,7 +60,8 @@ class TitleViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsAdminModeratorAuthorOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsAdminModeratorAuthorOrReadOnly)
 
     def get_queryset(self):
         title = get_object_or_404(
@@ -81,7 +83,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class CommentsViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsAdminModeratorAuthorOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsAdminModeratorAuthorOrReadOnly)
 
     def get_queryset(self):
         review = get_object_or_404(
