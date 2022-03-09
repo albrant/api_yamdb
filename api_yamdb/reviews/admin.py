@@ -5,21 +5,21 @@ from .models import Category, Comments, Genre, Review, Title
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'slug')
-    search_fields = ('name',)
+    search_fields = ('name', 'slug')
     empty_value_display = '-пусто-'
     list_editable = ('name', 'slug')
 
 
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'slug')
-    search_fields = ('name',)
+    search_fields = ('name', 'slug')
     empty_value_display = '-пусто-'
     list_editable = ('name', 'slug')
 
 
-class TitleAdmin(admin.ModelAdmin):
+class TitlesAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'year', 'category')
-    search_fields = ('name',)
+    search_fields = ('name', 'category')
     empty_value_display = '-пусто-'
     list_editable = ('name', 'category')
 
@@ -39,6 +39,6 @@ class CommentsAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Genre, GenreAdmin)
-admin.site.register(Title, TitleAdmin)
+admin.site.register(Title, TitlesAdmin)
 admin.site.register(Comments, CommentsAdmin)
 admin.site.register(Review, ReviewAdmin)
