@@ -90,6 +90,7 @@ class Title(models.Model):
         verbose_name='Описание')
 
     class Meta:
+        ordering = ['name']
         verbose_name = 'Произведение'
         verbose_name_plural = 'Произведения'
 
@@ -119,6 +120,7 @@ class Review(models.Model):
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
 
     class Meta:
+        ordering = ['pub_date']
         verbose_name = 'Обзор'
         verbose_name_plural = 'Обзоры'
         constraints = [
@@ -149,6 +151,7 @@ class Comments(models.Model):
     )
 
     class Meta:
+        ordering = ['pub_date']
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
