@@ -5,11 +5,10 @@ from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 
 from reviews.models import Category, Genre, Review, Title
-
 from .filters import TitleFilter
 from .permissions import (IsAdminModeratorAuthorOrReadOnly,
                           IsAdminUserOrReadOnly)
-from .serializers import (CategorySerializer, CommentsSerializer,
+from .serializers import (CategorySerializer, CommentSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
 
 
@@ -47,10 +46,10 @@ class TitleViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         category = get_object_or_404(
-            Category, slug=self.request.data.get("category")
+            Category, slug=self.request.data.get('category')
         )
         genre = Genre.objects.filter(
-            slug__in=self.request.data.getlist("genre")
+            slug__in=self.request.data.getlist('genre')
         )
         serializer.save(category=category, genre=genre)
 
@@ -81,8 +80,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
         )
 
 
-class CommentsViewSet(viewsets.ModelViewSet):
-    serializer_class = CommentsSerializer
+class CommentViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsAdminModeratorAuthorOrReadOnly)
 
