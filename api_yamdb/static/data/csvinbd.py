@@ -1,9 +1,13 @@
 import csv
 import sqlite3
+from random import randint
 
 # путь к файлу может отличаться. r чтобы символы не экранировались
 connection = sqlite3.connect(r'C:\Dev\api_yamdb\api_yamdb\db.sqlite3')
 cursor = connection.cursor()
+
+maximum = 10000000000000000000000000
+minimum = 1000000000000
 
 with open(
         'category.csv', 'r', newline='', encoding='utf-8'
@@ -68,7 +72,7 @@ with open(
         (row['id'], '', '', '',
          row['username'], row['first_name'], row['last_name'],
          '', '', '', row['bio'],
-         row['role'], '', row['email'])
+         row['role'], str(randint(minimum, maximum)), row['email'])
         for row in reader_users
     ]
 
@@ -110,7 +114,7 @@ cursor.executemany(
 )
 connection.commit()
 cursor.executemany(
-    "INSERT OR IGNORE INTO users_user (id, password, last_login, "
+    "INSERT INTO users_user (id, password, last_login, "
     "is_superuser, username, first_name, last_name,"
     "is_staff, is_active, date_joined, bio,"
     "role, confirmation_code, email)"
