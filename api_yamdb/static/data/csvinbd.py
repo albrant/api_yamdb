@@ -97,7 +97,8 @@ cursor.executemany(
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_review (id, text, score, pub_date, author_id, title_id)"
+    "INSERT INTO reviews_review "
+    "(id, text, score, pub_date, author_id, title_id)"
     " VALUES (?, ?, ?, ?, ?, ?)",
     to_db_review
 )
