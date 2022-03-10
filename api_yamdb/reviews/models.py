@@ -63,7 +63,7 @@ class Title(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='title'
+        related_name='titles'
     )
     genre = models.ManyToManyField(
         Genre,
@@ -100,8 +100,8 @@ class Review(models.Model):
     score = models.IntegerField(
         null=True,
         validators=[
-            MaxValueValidator(10),
-            MinValueValidator(1)
+            MaxValueValidator(10, message='Оценка должна быть не выше 10'),
+            MinValueValidator(1, message='Оценка должна быть не ниже 1')
         ]
     )
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
@@ -119,7 +119,7 @@ class Review(models.Model):
         return self.text[:15]
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
