@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 
 from api.permissions import IsAdmin
-
 from .models import User
 from .serializers import (UserAccessTokenSerializer, UserCreationSerializer,
                           UserSerializer)
@@ -66,7 +65,7 @@ def signup(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def getjwttoken(request):
+def get_jwt_token(request):
     serializer = UserAccessTokenSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     username = serializer.validated_data['username']
