@@ -1,10 +1,9 @@
-import datetime
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from users.models import User
-from .validators import characters_validator
+
+from .validators import characters_validator, year_validator
 
 
 class Category(models.Model):
@@ -18,12 +17,6 @@ class Category(models.Model):
         unique=True,
         verbose_name='Слаг',
         validators=[characters_validator]
-    )
-    description = models.TextField(
-        'Описание',
-        max_length=300,
-        null=True,
-        blank=True
     )
 
     class Meta:
@@ -42,12 +35,6 @@ class Genre(models.Model):
         help_text='Выберите жанр'
     )
     slug = models.SlugField(max_length=20, unique=True, verbose_name='Слаг')
-    description = models.TextField(
-        'Описание',
-        max_length=300,
-        null=True,
-        blank=True
-    )
 
     class Meta:
         ordering = ['name']
@@ -65,9 +52,10 @@ class Title(models.Model):
         help_text='Выберите название произведения'
     )
     year = models.IntegerField(
-
-        validators=[MaxValueValidator(datetime.date.today().year)],
-        blank=True,
+        validators=[year_validator],
+        verbose_name='Год',
+        null=True,
+        blank=True
     )
     category = models.ForeignKey(
         Category,

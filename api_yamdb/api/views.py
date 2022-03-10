@@ -1,7 +1,7 @@
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, mixins, permissions, viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 
 from reviews.models import Category, Genre, Review, Title
@@ -10,17 +10,7 @@ from .permissions import (IsAdminModeratorAuthorOrReadOnly,
                           IsAdminUserOrReadOnly)
 from .serializers import (CategorySerializer, CommentSerializer,
                           GenreSerializer, ReviewSerializer, TitleSerializer)
-
-
-class ListCreateDestroyViewSet(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet
-):
-    lookup_field = 'slug'
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name']
+from .mixins import ListCreateDestroyViewSet
 
 
 class CategoryViewSet(ListCreateDestroyViewSet):
