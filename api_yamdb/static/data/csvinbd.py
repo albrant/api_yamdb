@@ -77,48 +77,48 @@ with open(
     ]
 
 cursor.executemany(
-    "INSERT INTO reviews_category "
-    "(id, name, slug, description) VALUES (?, ?, ?, ?)",
+    'INSERT INTO reviews_category '
+    '(id, name, slug, description) VALUES (?, ?, ?, ?)',
     to_db_category
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_genre (id, name, slug, description)"
-    " VALUES (?, ?, ?, ?)",
+    'INSERT INTO reviews_genre (id, name, slug, description)'
+    ' VALUES (?, ?, ?, ?)',
     to_db_genre
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_title (id, name, description, category_id, year)"
-    " VALUES (?, ?, ?, ?, ?)",
+    'INSERT INTO reviews_title (id, name, description, category_id, year)'
+    ' VALUES (?, ?, ?, ?, ?)',
     to_db_titles
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_title_genre (id, title_id, genre_id)"
-    " VALUES (?, ?, ?)",
+    'INSERT INTO reviews_title_genre (id, title_id, genre_id)'
+    ' VALUES (?, ?, ?)',
     to_db_genre_title
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_review "
-    "(id, text, score, pub_date, author_id, title_id)"
-    " VALUES (?, ?, ?, ?, ?, ?)",
+    'INSERT INTO reviews_review '
+    '(id, text, score, pub_date, author_id, title_id)'
+    ' VALUES (?, ?, ?, ?, ?, ?)',
     to_db_review
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO reviews_comments (id, text, pub_date, author_id, review_id)"
-    " VALUES (?, ?, ?, ?, ?)",
+    'INSERT INTO reviews_comment (id, text, pub_date, author_id, review_id)'
+    ' VALUES (?, ?, ?, ?, ?)',
     to_db_comments
 )
 connection.commit()
 cursor.executemany(
-    "INSERT INTO users_user (id, password, last_login, "
-    "is_superuser, username, first_name, last_name,"
-    "is_staff, is_active, date_joined, bio,"
-    "role, confirmation_code, email)"
-    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    'INSERT INTO users_user (id, password, last_login, '
+    'is_superuser, username, first_name, last_name,'
+    'is_staff, is_active, date_joined, bio,'
+    'role, confirmation_code, email)'
+    ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     to_db_users
 )
 connection.commit()
